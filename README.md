@@ -22,6 +22,34 @@ cd cloudbuild/
 gcloud builds submit .
 ```
 
+## Create a KMS Key
+
+Create a Keyring:
+
+```
+gcloud kms keyrings create packer \
+  --location=global
+```
+
+Create the Key:
+
+```
+gcloud kms keys create key \
+  --location=global \
+  --keyring=packer \
+  --purpose=encryption
+```
+
+Encrypt file:
+
+```
+gcloud kms encrypt \
+  --plaintext-file=secrets.json \
+  --ciphertext-file=secrets.json.enc \
+  --location=global \
+  --keyring=packer \
+  --key=key
+```
 ## Questions?
 
 Open an issue.
